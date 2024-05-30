@@ -1,5 +1,6 @@
 # cvMouseExtension
-
+### WARNING : Opencv를 사용하는 프로젝트만 사용 가능 !
+### WARNING : This project is only compatible with projects using OpenCV !  
 ---
 * #### 💡 개요
   * 기존 ```cv::namedWindow();``` 사용 시 이미지 사이즈가 
@@ -29,7 +30,6 @@
  
 ## 2. 사용 방법
    * __설치(Install)__
-     > ### Opencv를 사용하는 프로젝트만 사용 가능   
       A. 파일 디렉터리에 ```cvMouseExtension.cpp```와 ```cvMouseExtension.h``` 추가  
       B. 솔루션 탐색기⇾ 프로젝트 우클릭⇾ 추가⇾ 기존 항목⇾ ```cvMouseExtension.cpp```와 ```cvMouseExtension.h``` 추가   
       C. 헤더 파일 또는 .cpp에  ```#include cvMouseExtension.h``` 추가  
