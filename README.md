@@ -29,7 +29,7 @@
  <!-------------------------------------------------------------Part 2------------------------------------------------------------------------------------------>
  
 ## 2. 사용 방법
-   * __설치(Install)__
+   * __설치(Install)__   
       A. 파일 디렉터리에 ```cvMouseExtension.cpp```와 ```cvMouseExtension.h``` 추가  
       B. 솔루션 탐색기⇾ 프로젝트 우클릭⇾ 추가⇾ 기존 항목⇾ ```cvMouseExtension.cpp```와 ```cvMouseExtension.h``` 추가   
       C. 헤더 파일 또는 .cpp에  ```#include cvMouseExtension.h``` 추가  
@@ -67,3 +67,5 @@
 		>	
 		>	waitKey(0); // 입력 대기
 		>	```
+## 3. Reference 
+ [Reference : Github Repositories](https://github.com/DennisLiu1993/Zoom-In-Out-with-OpenCV)
