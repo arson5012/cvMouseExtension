@@ -16,7 +16,7 @@
 
  ## 1. 기능 설명
 
- <img src="./src/확대중.jpg" width="700" height="300" />  
+ <img src="./src/확대.jpg" width="1200" height="300" />  
 
  1. __마우스 휠 (Mouse Wheel Up / Down)__  
     마우스 커서 위치로 확대(Zoom in), 축소(Zoom out) (이)가 가능하다. 
@@ -28,7 +28,7 @@
 </br>
     
 
- <img src="./src/저장완료.jpg" width="700" height="300" />         
+ <img src="./src/저장.jpg" width="700" height="300" />         
  
  3. __마우스 우클릭 (Mouse RButton Down)__      
     마우스 우클릭 시 현재(확대 / 축소) 이미지를 현재시간 이름으로 디렉터리에 저장하고 저장 완료 메시지 박스를 표시한다.  
