@@ -6,8 +6,6 @@
   * 기존 ```cv::namedWindow();``` 사용 시 이미지 사이즈가 
 테스크톱 해상도보다 크면  
 최대화를 해도 잘 보이지 않는 문제점을 보완한 확장 코드  
-기존 Reference 코드에서 기능 수정 및 버그 수정   
-개인 저장용 repositories      
    
 * #### 🌍 환경
   * Language : C++
@@ -18,6 +16,7 @@
 
  ## 1. 기능 설명
 
+ <img src="./src/확대중.jpg" width="700" height="300" />  
 
  1. __마우스 휠 (Mouse Wheel Up / Down)__  
     마우스 커서 위치로 확대(Zoom in), 축소(Zoom out) (이)가 가능하다. 
@@ -25,8 +24,15 @@
        
  2. __마우스 드래그 (Mouse LButton Down & Drag)__      
     마우스 휠로 확대를 한 경우 마우스 왼쪽을 누른 상태로 드래그하여 화면을 이동할 수 있다.
-     
+</br>
+</br>
+    
 
+ <img src="./src/저장완료.jpg" width="700" height="300" />         
+ 
+ 3. __마우스 우클릭 (Mouse RButton Down)__      
+    마우스 우클릭 시 현재(확대 / 축소) 이미지를 현재시간 이름으로 디렉터리에 저장하고 저장 완료 메시지 박스를 표시한다.  
+    
  <!-------------------------------------------------------------Part 2------------------------------------------------------------------------------------------>
  
 ## 2. 사용 방법
@@ -37,11 +43,11 @@
 
    * __사용 예시(Example)__
 		>	```cpp
-		>	void 클래스::함수명(String winname, Mat& image)
+		>	void 클래스::함수명(String winname, Mat& image, int Wait)
 		>	{
 		>		cvMouseExtension cvWin(winname);
 		>		cvWin.ImShow(image); // cv::Mat으로 불러오기
-		>		cv::waitKey(0);
+		>		cv::waitKey(Wait);
 		>	}
 		>	```
 		>	또는,
