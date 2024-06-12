@@ -1,7 +1,5 @@
 # cvMouseExtension
-### WARNING : Opencv를 사용하는 프로젝트만 사용 가능 !
-### WARNING : This project is only compatible with projects using OpenCV !  
----
+
 * #### 💡 개요
   * 기존 ```cv::namedWindow();``` 사용 시 이미지 사이즈가 
 테스크톱 해상도보다 크면  
