@@ -196,8 +196,43 @@ bool cvMouseExtension::ImShow(Mat& mat, double InitScale)
 void cvMouseExtension::OnWait(Mat& curImage)
 {	
 	// 약간의 트릭 
-	imshow("Preview", curImage);
-	cv::destroyWindow("Preview");
+	imshow("Message", curImage);
+
+	Rect mainWindowRect;
+	int screen_width = GetSystemMetrics(SM_CXSCREEN);
+	int screen_height = GetSystemMetrics(SM_CYSCREEN);
+	int window_width = curImage.cols;
+	int window_height = curImage.rows;
+
+	int x = (screen_width - window_width) / 2;
+	int y = (screen_height - window_height) / 2;
+
+	// 창 위치 화면 정중앙으로 설정
+	moveWindow("Message", x, y);
+	if (waitKey(1500))
+	{
+		cv::destroyWindow("Message");
+		curImage.release();
+	}
+	
+}
+Mat cvMouseExtension::OnDrawText(String text, Size winsize)
+{
+	int baseline = 0;
+	Mat empty = Mat::zeros(winsize, CV_8UC3);
+	empty.setTo(Scalar(255, 255, 255));
+
+	Size textSize = getTextSize(text, FONT_HERSHEY_SIMPLEX, 1, 1, &baseline);
+	Point textOrg((empty.cols - textSize.width) / 2, (empty.rows + textSize.height) / 2);
+
+	//int padding = 30;
+	//Point rectTopLeft(textOrg.x - padding, textOrg.y - textSize.height - padding);
+	//Point rectBottomRight(textOrg.x + textSize.width + padding, textOrg.y + baseline + padding);
+	//rectangle(empty, rectTopLeft, rectBottomRight, Scalar(0, 255, 255), 2);
+
+	putText(empty, text, textOrg, FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 0), 2);
+
+	return empty;
 }
 
 void cvMouseExtension::SetInitailScale (double dScale)
@@ -261,7 +296,8 @@ void cvMouseExtension::OnRButtonSaveImage()
 	}
 	int iW = m_Resize[0].cols - 1, iH = m_Resize[0].rows - 1;//-1: for bar size
 	Rect rectShow(Point(horizontalSliderPos, verticalSliderPos), Size(iW, iH));
-	OnWait(m_Resize[zoomCount](rectShow)); // 없으면 __acrt_first_block == header 오류
+
+	OnWait(OnDrawText("Image Save successful !", Size(500, 70))); // 없으면 __acrt_first_block == header 오류
 	if(!m_Resize[zoomCount].empty())
 		imwrite(temp, m_Resize[zoomCount](rectShow));
 }

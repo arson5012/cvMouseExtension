@@ -34,7 +34,7 @@ public:
 	void SetHorzSliderCtrlPos(int iPos);
 	void SetVertSliderCtrlPos(int iPos);
 	void OnRButtonSaveImage();
-
+	Mat OnDrawText(String text, Size winsize);
 #pragma endregion
 
 public:
