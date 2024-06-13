@@ -198,28 +198,24 @@ void cvMouseExtension::OnWait(Mat& curImage)
 	// 약간의 트릭 
 	imshow("Message", curImage);
 	Rect windowRect = GetcvWindowRect(m_strWindowName);
-
-	int x = windowRect.tl().x + (windowRect.width / 5);
-	int y = windowRect.tl().y + (windowRect.height / 3);
-	if (windowRect.width < curImage.cols || 
-		windowRect.height < curImage.rows) // 창이 작아질 때
-	{
-		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
-		int width = curImage.cols;
-		int height = curImage.rows;
-
-		int cx = (screenWidth - width) / 2;
-		int cy = (screenHeight - height) / 2;
-
-		// 창 위치 화면 정중앙으로 설정
-		moveWindow("Message", cx, cy);
-	}
-	else
-	{
-
-		moveWindow("Message", x, y);
-	}
+	Point bl = windowRect.tl() + Point(0, windowRect.height);
+	//if (windowRect.width < curImage.cols || 
+	//	windowRect.height < curImage.rows) // 창이 작아질 때
+	//{
+	//	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	//	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+	//	int width = curImage.cols;
+	//	int height = curImage.rows;
+	//
+	//	int cx = (screenWidth - width) / 2;
+	//	int cy = (screenHeight - height) / 2;
+	//
+	//	// 창 위치 화면 정중앙으로 설정
+	//	moveWindow("Message", cx, cy);
+	//}
+	//int x = windowRect.tl().x + (windowRect.width / 5);
+	//int y = windowRect.tl().y + (windowRect.height / 3);
+	moveWindow("Message", bl.x, bl.y);
 	
 	if (waitKey(1500))
 	{
@@ -314,12 +310,16 @@ void cvMouseExtension::SetVertSliderCtrlPos (int iPos)
 }
 void cvMouseExtension::OnRButtonSaveImage()
 {
+	if ((_waccess(_T(".\\cvExtension"), 0)) == -1) 
+		CreateDirectory(_T(".\\cvExtension"), NULL);
+
 	time_t timer;
 	timer = time(NULL);
 	struct tm t;
 	localtime_s(&t, &timer);
-	cv::String temp = cv::format("%04d%02d%02d%02d%02d%d.bmp", t.tm_year + 1900, t.tm_mon + 1, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec);
-	
+	String folderName = "cvExtension\\";
+	String temp = format("%s%04d%02d%02d%02d%02d%d.bmp", folderName.c_str(), t.tm_year + 1900, t.tm_mon + 1, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec);
+
 	if (Image.empty())
 		return;
 	if (m_Resize[zoomCount].empty())

@@ -1,4 +1,5 @@
 #include <opencv2/opencv.hpp>
+#include <filesystem>
 
 using namespace std;
 using namespace cv;
@@ -39,7 +40,6 @@ public:
 	void SetHorzSliderCtrlPos(int iPos);
 	void SetVertSliderCtrlPos(int iPos);
 	void OnRButtonSaveImage();
-
 #pragma endregion
 
 public:
