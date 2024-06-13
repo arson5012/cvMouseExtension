@@ -160,10 +160,10 @@ bool cvMouseExtension::windowExists(const string& windowName)
 }
 
 /*
-	ImRead:					경로로 이미지 불러오기
-	ImShow:					cv::Mat으로 이미지 불러오기
+	LoadPath:					경로로 이미지 불러오기
+	LoadImg:					cv::Mat으로 이미지 불러오기
 */
-bool cvMouseExtension::ImRead(String winname, double InitScale)
+bool cvMouseExtension::LoadPath(String winname, double InitScale)
 {
 	SetInitailScale(InitScale);
 
@@ -181,18 +181,11 @@ bool cvMouseExtension::ImRead(String winname, double InitScale)
 
 	return !m_Resize[0].empty();
 }
-bool cvMouseExtension::ImShow(Mat& mat, double InitScale)
+bool cvMouseExtension::LoadImg(Mat& mat, double InitScale)
 {
 	SetInitailScale(InitScale);
-	if (mat.channels() == 1)
-	{
-		cvtColor(mat, Image, COLOR_GRAY2BGR);
-	}
-	else
-	{
-		Image = mat.clone();
-	}
 	
+	Image = mat.clone();
 
 	if (Image.empty())
 		return false;
@@ -218,6 +211,7 @@ void cvMouseExtension::OnWait(Mat& curImage)
 	imshow("Message", curImage);
 	Rect windowRect = GetcvWindowRect(m_strWindowName);
 	Point bl = windowRect.tl() + Point(0, windowRect.height);
+	Point tl = windowRect.tl();
 	//if (windowRect.width < curImage.cols || 
 	//	windowRect.height < curImage.rows) // 창이 작아질 때
 	//{
@@ -234,8 +228,9 @@ void cvMouseExtension::OnWait(Mat& curImage)
 	//}
 	//int x = windowRect.tl().x + (windowRect.width / 5);
 	//int y = windowRect.tl().y + (windowRect.height / 3);
-	moveWindow("Message", bl.x, bl.y);
-	
+
+	//moveWindow("Message", bl.x, bl.y - 110);
+	moveWindow("Message", tl.x, tl.y);
 	if (waitKey(1500))
 	{
 		cv::destroyWindow("Message");

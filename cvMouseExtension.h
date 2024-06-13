@@ -29,8 +29,8 @@ public:
 #pragma endregion
 
 #pragma region INIT
-	bool ImShow(Mat& mat, double InitScale = 1.0f); // default = 1
-	bool ImRead(String winname, double InitScale = 1.0f); // default = 1
+	bool LoadImg(Mat& mat, double InitScale = 1.0f); // default = 1
+	bool LoadPath(String winname, double InitScale = 1.0f); // default = 1
 	void SetInitailScale(double dScale);
 #pragma endregion
 
