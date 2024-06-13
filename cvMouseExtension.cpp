@@ -197,18 +197,30 @@ void cvMouseExtension::OnWait(Mat& curImage)
 {	
 	// 약간의 트릭 
 	imshow("Message", curImage);
+	Rect windowRect = GetcvWindowRect(m_strWindowName);
 
-	Rect mainWindowRect;
-	int screen_width = GetSystemMetrics(SM_CXSCREEN);
-	int screen_height = GetSystemMetrics(SM_CYSCREEN);
-	int window_width = curImage.cols;
-	int window_height = curImage.rows;
+	int x = windowRect.tl().x + (windowRect.width / 5);
+	int y = windowRect.tl().y + (windowRect.height / 3);
+	if (windowRect.width < curImage.cols || 
+		windowRect.height < curImage.rows) // 창이 작아질 때
+	{
+		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+		int width = curImage.cols;
+		int height = curImage.rows;
 
-	int x = (screen_width - window_width) / 2;
-	int y = (screen_height - window_height) / 2;
+		int cx = (screenWidth - width) / 2;
+		int cy = (screenHeight - height) / 2;
 
-	// 창 위치 화면 정중앙으로 설정
-	moveWindow("Message", x, y);
+		// 창 위치 화면 정중앙으로 설정
+		moveWindow("Message", cx, cy);
+	}
+	else
+	{
+
+		moveWindow("Message", x, y);
+	}
+	
 	if (waitKey(1500))
 	{
 		cv::destroyWindow("Message");
@@ -233,6 +245,27 @@ Mat cvMouseExtension::OnDrawText(String text, Size winsize)
 	putText(empty, text, textOrg, FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 0), 2);
 
 	return empty;
+}
+Rect cvMouseExtension::GetcvWindowRect(const string& windowName)
+{
+	wstring windowNameW(windowName.begin(), windowName.end());
+
+	HWND hwnd = FindWindow(NULL, windowNameW.c_str());
+	if (hwnd == NULL) 
+	{
+		return Rect();
+	}
+
+	// 윈도우 Rect를 얻음
+	RECT rect;
+	if (GetWindowRect(hwnd, &rect)) 
+	{
+		return Rect(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+	}
+	else 
+	{
+		return Rect();
+	}
 }
 
 void cvMouseExtension::SetInitailScale (double dScale)

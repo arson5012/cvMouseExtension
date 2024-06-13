@@ -21,12 +21,17 @@ public:
 	*/
 	~cvMouseExtension();
 
+#pragma region SYSTEM
+	void OnWait(Mat& curImage);
+	bool windowExists(const string& windowName);
+	Mat OnDrawText(String text, Size winsize);
+	Rect GetcvWindowRect(const string& windowName);
+#pragma endregion
+
 #pragma region INIT
 	bool ImShow(Mat& mat, double InitScale = 1.0f); // default = 1
 	bool ImRead(String winname, double InitScale = 1.0f); // default = 1
-	void OnWait(Mat& curImage);
-	void SetInitailScale (double dScale);
-	bool windowExists(const string& windowName);
+	void SetInitailScale(double dScale);
 #pragma endregion
 
 #pragma region FUNCTION
@@ -34,7 +39,7 @@ public:
 	void SetHorzSliderCtrlPos(int iPos);
 	void SetVertSliderCtrlPos(int iPos);
 	void OnRButtonSaveImage();
-	Mat OnDrawText(String text, Size winsize);
+
 #pragma endregion
 
 public:
