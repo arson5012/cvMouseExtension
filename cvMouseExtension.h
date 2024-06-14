@@ -1,5 +1,5 @@
 #pragma once
-#include <opencv2/opencv.hpp>
+#include "opencv2/opencv.hpp"
 
 using namespace std;
 using namespace cv;
@@ -22,7 +22,7 @@ public:
 	~cvMouseExtension();
 
 #pragma region SYSTEM
-	void OnWait(Mat& curImage);
+	bool OnWait(Mat& curImage);
 	bool windowExists(const string& windowName);
 	Mat OnDrawText(String text, Size winsize);
 	Rect GetcvWindowRect(const string& windowName);
@@ -31,6 +31,10 @@ public:
 #pragma region INIT
 	bool LoadImg(Mat& mat, double InitScale = 1.0f); // default = 1
 	bool LoadPath(String winname, double InitScale = 1.0f); // default = 1
+
+	bool ImShow(Mat& mat, double InitScale = 1.0f); // default = 1
+	bool ImRead(String winname, double InitScale = 1.0f); // default = 1
+
 	void SetInitailScale(double dScale);
 #pragma endregion
 
@@ -44,7 +48,7 @@ public:
 public:
 	Mat		Image;
 	vector<Mat> m_Resize;
-
+	
 	String	m_strWindowName;
 	Point	ptLButtonDown;
 	Point	ptRButtonDown;

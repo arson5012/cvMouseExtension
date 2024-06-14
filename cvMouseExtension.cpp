@@ -11,8 +11,9 @@
 void cvMouseCallBack (int event, int x, int y, int flag, void* pUserData)
 {
 	cvMouseExtension* pParent = (cvMouseExtension*)pUserData;
-	
-	if (event == EVENT_MOUSEWHEEL) 
+
+	//bool IsCtrl = (flag & EVENT_FLAG_CTRLKEY) != 0;
+	if (event == EVENT_MOUSEWHEEL)
 	{
 		if (getMouseWheelDelta(flag) > 0 && pParent->zoomCount != pParent->maxZoomCount)
 			pParent->zoomCount++;
@@ -22,8 +23,8 @@ void cvMouseCallBack (int event, int x, int y, int flag, void* pUserData)
 		if (pParent->zoomCount == 0)
 			pParent->offsetX = pParent->offsetY = 0;
 
-		x = pParent->ptLButtonDown.x;
-		y = pParent->ptLButtonDown.y;
+		x = pParent->ptRButtonDown.x;
+		y = pParent->ptRButtonDown.y;
 
 		// double형으로 캐스팅하여 오버플로 방지
 		double horzSliderBarPos = static_cast<double>(pParent->horizontalSliderPos);
@@ -71,15 +72,15 @@ void cvMouseCallBack (int event, int x, int y, int flag, void* pUserData)
 		pParent->SetVertSliderCtrlPos (iBarPosY);
 		pParent->InvalidateWindows();
 	}
-
 	else if (event == EVENT_RBUTTONDOWN)
+		// 더블클릭 동시 입력 시 오류
 	{
 		pParent->OnRButtonSaveImage();
 	}
 	else if (event == EVENT_MOUSEMOVE)
 	{
-		pParent->ptLButtonDown.x = x;
-		pParent->ptLButtonDown.y = y;
+		pParent->ptRButtonDown.x = x;
+		pParent->ptRButtonDown.y = y;
 		pParent->horizontalSliderPosCopy = pParent->horizontalSliderPos;
 		pParent->verticalSliderPosCopy = pParent->verticalSliderPos;
 
@@ -126,7 +127,7 @@ cvMouseExtension::cvMouseExtension(String strWindowName, int iFlag)
 }
 cvMouseExtension::~cvMouseExtension()
 {
-	if (!m_strWindowName.empty() && windowExists(m_strWindowName)) 
+	if (!m_strWindowName.empty() && !windowExists(m_strWindowName)) 
 	{
 		setMouseCallback(m_strWindowName, nullptr);
 	}
@@ -145,23 +146,24 @@ cvMouseExtension::~cvMouseExtension()
 }
 bool cvMouseExtension::windowExists(const string& windowName)
 {
-	Mat testImage; // 임시 이미지 생성
-	try 
+	int prop = cv::getWindowProperty(windowName, WND_PROP_VISIBLE);
+	if (prop >= 0) // 열려있다면
 	{
-		imshow(windowName, testImage); // 윈도우를 표시해보고
-		if (getWindowProperty(windowName, WND_PROP_AUTOSIZE) != -1) 
-		{
-			cv::destroyAllWindows(); // 윈도우가 존재하면 제거
-			return true;
-		}
+		return true;
 	}
-	catch (const cv::Exception&) {}
-	return false; // 윈도우가 존재하지 않거나 예외가 발생한 경우
+	else 
+	{
+		return false;
+	}
 }
 
 /*
 	LoadPath:					경로로 이미지 불러오기
 	LoadImg:					cv::Mat으로 이미지 불러오기
+
+	/사용자 정의/
+	ImRead:						경로로 이미지 불러오기
+	ImShow:						cv::Mat으로 이미지 불러오기
 */
 bool cvMouseExtension::LoadPath(String winname, double InitScale)
 {
@@ -200,12 +202,49 @@ bool cvMouseExtension::LoadImg(Mat& mat, double InitScale)
 	return !m_Resize[0].empty();
 }
 
+bool cvMouseExtension::ImRead(String winname, double InitScale)
+{
+	SetInitailScale(InitScale);
+
+	Image = imread(winname);
+
+	if (Image.empty())
+		return false;
+	originalWidth = Image.cols;
+	originalHeight = Image.rows;
+
+	Size sizeInitial(Image.cols * InitScale, Image.rows * InitScale);
+	resize(Image, m_Resize[0], sizeInitial, 0, 0, resizeFlag);
+	if (!m_Resize[0].empty())
+		imshow(m_strWindowName, m_Resize[0]);
+
+	return !m_Resize[0].empty();
+}
+bool cvMouseExtension::ImShow(Mat& mat, double InitScale)
+{
+	SetInitailScale(InitScale);
+
+	Image = mat.clone();
+
+	if (Image.empty())
+		return false;
+	originalWidth = Image.cols;
+	originalHeight = Image.rows;
+
+	Size size(Image.cols * InitScale, Image.rows * InitScale);
+	resize(Image, m_Resize[0], size, 0, 0, resizeFlag);
+	if (!m_Resize[0].empty())
+		imshow(m_strWindowName, m_Resize[0]);
+
+	return !m_Resize[0].empty();
+}
+
 /*
 	OnWait:					메시지 박스 표시
 	OnDrawText:				메시지 박스 생성
 	GetcvWindowRect:		창 포인트 얻기
 */
-void cvMouseExtension::OnWait(Mat& curImage)
+bool cvMouseExtension::OnWait(Mat& curImage)
 {	
 	// 약간의 트릭 
 	imshow("Message", curImage);
@@ -231,12 +270,13 @@ void cvMouseExtension::OnWait(Mat& curImage)
 
 	//moveWindow("Message", bl.x, bl.y - 110);
 	moveWindow("Message", tl.x, tl.y);
-	if (waitKey(1500))
-	{
+	if (waitKey(300)) // 0.3 sec
+	{	
 		cv::destroyWindow("Message");
 		curImage.release();
+		return true;	
 	}
-	
+	return false;
 }
 Mat cvMouseExtension::OnDrawText(String text, Size winsize)
 {
@@ -330,8 +370,8 @@ void cvMouseExtension::SetVertSliderCtrlPos (int iPos)
 		verticalSliderPos = iPos;
 }
 void cvMouseExtension::OnRButtonSaveImage()
-{
-	if ((_waccess(_T(".\\cvExtension"), 0)) == -1) 
+{	
+	if ((_waccess(_T(".\\cvExtension"), 0)) == -1)
 		CreateDirectory(_T(".\\cvExtension"), NULL);
 
 	time_t timer;
@@ -350,10 +390,17 @@ void cvMouseExtension::OnRButtonSaveImage()
 	}
 	int iW = m_Resize[0].cols - 1, iH = m_Resize[0].rows - 1;//-1: for bar size
 	Rect rectShow(Point(horizontalSliderPos, verticalSliderPos), Size(iW, iH));
-
-	OnWait(OnDrawText("Image Save successful !", Size(500, 70))); // 없으면 __acrt_first_block == header 오류
-	if(!m_Resize[zoomCount].empty())
-		imwrite(temp, m_Resize[zoomCount](rectShow));
+	int CurZoomCnt = zoomCount;
+	if (windowExists("Message")) // 메시지 박스가 없다면
+	{
+		bool IsSuccess = OnWait(OnDrawText("Image Save successful !", Size(500, 70))); 
+		// 없으면 __acrt_first_block == header 오류
+		
+		if (!m_Resize[CurZoomCnt].empty() && IsSuccess)
+			imwrite(temp, m_Resize[CurZoomCnt](rectShow));
+	
+		
+	}
 }
 
 
@@ -367,6 +414,6 @@ void cvMouseExtension::OnRButtonSaveImage()
 		cv::waitKey(Wait);
 	}
 
-
+	Ctrl + Click
 	https://github.com/arson5012/cvMouseExtension
 */
