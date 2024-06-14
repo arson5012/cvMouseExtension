@@ -90,7 +90,7 @@ void cvMouseCallBack (int event, int x, int y, int flag, void* pUserData)
 /*
 	cvMouseExtension:		초기화
 	~cvMouseExtension:		종료
-	windowExists:			창이 존재하는지 유무
+	windowExists:			OpenCV 창이 존재 유무 검사
 */
 cvMouseExtension::cvMouseExtension(String strWindowName, int iFlag)
 {
@@ -240,15 +240,23 @@ bool cvMouseExtension::ImShow(Mat& mat, double InitScale)
 }
 
 /*
-	OnWait:					메시지 박스 표시
-	OnDrawText:				메시지 박스 생성
-	GetcvWindowRect:		창 포인트 얻기
+	ShowMessageBox:					메시지 박스 표시
+	SetMessageBox:					메시지 박스 위치 설정
+	CreateMessageBox:				메시지 박스 생성
+	cvGetWindowRect:				OpenCV 창 포인트 얻기
 */
-bool cvMouseExtension::OnWait(Mat& curImage)
+bool cvMouseExtension::ShowMessageBox(String text, Size winsize)
+{
+	if (SetMessageBox(CreateMessageBox(text, winsize)))
+	{
+		return true;
+	}
+}
+bool cvMouseExtension::SetMessageBox(Mat& curImage)
 {	
 	// 약간의 트릭 
 	imshow("Message", curImage);
-	Rect windowRect = GetcvWindowRect(m_strWindowName);
+	Rect windowRect = cvGetWindowRect(m_strWindowName);
 	Point bl = windowRect.tl() + Point(0, windowRect.height);
 	Point tl = windowRect.tl();
 	//if (windowRect.width < curImage.cols || 
@@ -270,7 +278,7 @@ bool cvMouseExtension::OnWait(Mat& curImage)
 
 	//moveWindow("Message", bl.x, bl.y - 110);
 	moveWindow("Message", tl.x, tl.y);
-	if (waitKey(300)) // 0.3 sec
+	if (waitKey(420)) // 0.42 sec
 	{	
 		cv::destroyWindow("Message");
 		curImage.release();
@@ -278,7 +286,7 @@ bool cvMouseExtension::OnWait(Mat& curImage)
 	}
 	return false;
 }
-Mat cvMouseExtension::OnDrawText(String text, Size winsize)
+Mat cvMouseExtension::CreateMessageBox(String text, Size winsize)
 {
 	int baseline = 0;
 	Mat empty = Mat::zeros(winsize, CV_8UC3);
@@ -296,7 +304,7 @@ Mat cvMouseExtension::OnDrawText(String text, Size winsize)
 
 	return empty;
 }
-Rect cvMouseExtension::GetcvWindowRect(const string& windowName)
+Rect cvMouseExtension::cvGetWindowRect(const string& windowName)
 {
 	wstring windowNameW(windowName.begin(), windowName.end());
 
@@ -393,13 +401,12 @@ void cvMouseExtension::OnRButtonSaveImage()
 	int CurZoomCnt = zoomCount;
 	if (windowExists("Message")) // 메시지 박스가 없다면
 	{
-		bool IsSuccess = OnWait(OnDrawText("Image Save successful !", Size(500, 70))); 
-		// 없으면 __acrt_first_block == header 오류
-		
-		if (!m_Resize[CurZoomCnt].empty() && IsSuccess)
+		if (!m_Resize[CurZoomCnt].empty() &&
+			ShowMessageBox("Image Save successful !", Size(500, 70)))
+			// 없으면 __acrt_first_block == header 오류
+		{
 			imwrite(temp, m_Resize[CurZoomCnt](rectShow));
-	
-		
+		}
 	}
 }
 

@@ -7,25 +7,29 @@ using namespace cv;
 class cvMouseExtension
 {
 public:
+#pragma region SYSTEM
 	cvMouseExtension(String strWindowName, int iFlag = WINDOW_NORMAL);
 	/*
 	   WINDOW_NORMAL     = 0x00000000, //!< the user can resize the window (no constraint) / also use to switch a fullscreen window to a normal size.
-       WINDOW_AUTOSIZE   = 0x00000001, //!< the user cannot resize the window, the size is constrainted by the image displayed.
-       WINDOW_OPENGL     = 0x00001000, //!< window with opengl support.
+	   WINDOW_AUTOSIZE   = 0x00000001, //!< the user cannot resize the window, the size is constrainted by the image displayed.
+	   WINDOW_OPENGL     = 0x00001000, //!< window with opengl support.
 
-       WINDOW_FULLSCREEN = 1,          //!< change the window to fullscreen.
-       WINDOW_FREERATIO  = 0x00000100, //!< the image expends as much as it can (no ratio constraint).
-       WINDOW_KEEPRATIO  = 0x00000000, //!< the ratio of the image is respected.
-       WINDOW_GUI_EXPANDED=0x00000000, //!< status bar and tool bar
-       WINDOW_GUI_NORMAL = 0x00000010, //!< old fashious way
+	   WINDOW_FULLSCREEN = 1,          //!< change the window to fullscreen.
+	   WINDOW_FREERATIO  = 0x00000100, //!< the image expends as much as it can (no ratio constraint).
+	   WINDOW_KEEPRATIO  = 0x00000000, //!< the ratio of the image is respected.
+	   WINDOW_GUI_EXPANDED=0x00000000, //!< status bar and tool bar
+	   WINDOW_GUI_NORMAL = 0x00000010, //!< old fashious way
 	*/
 	~cvMouseExtension();
 
-#pragma region SYSTEM
-	bool OnWait(Mat& curImage);
 	bool windowExists(const string& windowName);
-	Mat OnDrawText(String text, Size winsize);
-	Rect GetcvWindowRect(const string& windowName);
+	Rect cvGetWindowRect(const string& windowName);
+#pragma endregion
+
+#pragma region cvMessageBox
+	bool SetMessageBox(Mat& curImage);
+	Mat	 CreateMessageBox(String text, Size winsize);
+	bool ShowMessageBox(String text, Size winsize = Size(500, 70));
 #pragma endregion
 
 #pragma region INIT
