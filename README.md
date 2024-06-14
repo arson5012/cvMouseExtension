@@ -14,8 +14,8 @@
 
  ## 1. 기능 설명
 
- <img src="./src/Processing.gif" width="500" height="500" />  
- <img src="./src/저장확인.jpg" width="500" height="150" />  
+ <img src="./src/Demo.gif" alt="Demo" style="width:800px; height:500px; border: 3px solid black">  
+ 
 
  
  1. __마우스 휠 (Mouse Wheel Up / Down)__  
