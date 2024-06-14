@@ -14,10 +14,9 @@
 
  ## 1. 기능 설명
 
- <img src="./src/Demo.gif" alt="Demo" style="width:800px; height:500px; border: 3px solid black">  
- 
+![Demo](./src/Demo.gif)
 
- 
+
  1. __마우스 휠 (Mouse Wheel Up / Down)__  
     마우스 커서 위치로 확대(Zoom in), 축소(Zoom out) (이)가 가능하다. 
 
