@@ -2,11 +2,11 @@
 #include "cvMouseExtension.h"
 
 /*
-	¸¶¿ì½º ÀÌº¥Æ®
-	ÈÙ:						È®´ë/Ãà¼Ò
-	¸¶¿ì½º ÀÌµ¿:			È®´ë/Ãà¼Ò ½Ã Ä¿¼­ À§Ä¡·ÎºÎÅÍ È®´ë/Ãà¼Ò
-	ÁÂ Å¬¸¯ ÈÄ µå·¡±×:		È®´ë ½Ã È­¸é ÀÌµ¿
-	¿ì Å¬¸¯:				È®´ë/Ãà¼Ò »óÅÂÀÇ ÀÌ¹ÌÁö ÀúÀå
+	ë§ˆìš°ìŠ¤ ì´ë²¤íŠ¸
+	íœ :						í™•ëŒ€/ì¶•ì†Œ
+	ë§ˆìš°ìŠ¤ ì´ë™:			í™•ëŒ€/ì¶•ì†Œ ì‹œ ì»¤ì„œ ìœ„ì¹˜ë¡œë¶€í„° í™•ëŒ€/ì¶•ì†Œ
+	ì¢Œ í´ë¦­ í›„ ë“œë˜ê·¸:		í™•ëŒ€ ì‹œ í™”ë©´ ì´ë™
+	ìš° í´ë¦­:				í™•ëŒ€/ì¶•ì†Œ ìƒíƒœì˜ ì´ë¯¸ì§€ ì €ì¥
 */
 void cvMouseCallBack (int event, int x, int y, int flag, void* pUserData)
 {
@@ -26,7 +26,7 @@ void cvMouseCallBack (int event, int x, int y, int flag, void* pUserData)
 		x = pParent->ptRButtonDown.x;
 		y = pParent->ptRButtonDown.y;
 
-		// doubleÇüÀ¸·Î Ä³½ºÆÃÇÏ¿© ¿À¹öÇÃ·Î ¹æÁö
+		// doubleí˜•ìœ¼ë¡œ ìºìŠ¤íŒ…í•˜ì—¬ ì˜¤ë²„í”Œë¡œ ë°©ì§€
 		double horzSliderBarPos = static_cast<double>(pParent->horizontalSliderPos);
 		double vertSliderBarPos = static_cast<double>(pParent->verticalSliderPos);
 
@@ -40,14 +40,14 @@ void cvMouseCallBack (int event, int x, int y, int flag, void* pUserData)
 		pParent->horizontalSliderRangeMax = int(pParent->newScale * iW - pParent->InitScale * iW);
 		pParent->verticalSliderRangeMax = int(pParent->newScale * iH - pParent->InitScale * iH);
 
-		// doubleÇüÀ¸·Î Ä³½ºÆÃÇÏ¿© ¿À¹öÇÃ·Î ¹æÁö
+		// doubleí˜•ìœ¼ë¡œ ìºìŠ¤íŒ…í•˜ì—¬ ì˜¤ë²„í”Œë¡œ ë°©ì§€
 		int iBarPosX = static_cast<int>(dPixelX * pParent->newScale - x + 0.5);
 		int iBarPosY = static_cast<int>(dPixelY * pParent->newScale - y + 0.5);
 
 		pParent->SetHorzSliderCtrlPos(iBarPosX);
 		pParent->SetVertSliderCtrlPos(iBarPosY);
 
-		// doubleÇüÀ¸·Î Ä³½ºÆÃÇÏ¿© ¿À¹öÇÃ·Î ¹æÁö
+		// doubleí˜•ìœ¼ë¡œ ìºìŠ¤íŒ…í•˜ì—¬ ì˜¤ë²„í”Œë¡œ ë°©ì§€
 		pParent->offsetX = -iBarPosX + (dPixelX * pParent->newScale - x);
 		pParent->offsetY = -iBarPosY + (dPixelY * pParent->newScale - y);
 
@@ -73,7 +73,7 @@ void cvMouseCallBack (int event, int x, int y, int flag, void* pUserData)
 		pParent->InvalidateWindows();
 	}
 	else if (event == EVENT_RBUTTONDOWN)
-		// ´õºíÅ¬¸¯ µ¿½Ã ÀÔ·Â ½Ã ¿À·ù
+		// ë”ë¸”í´ë¦­ ë™ì‹œ ì…ë ¥ ì‹œ ì˜¤ë¥˜
 	{
 		pParent->OnRButtonSaveImage();
 	}
@@ -88,21 +88,21 @@ void cvMouseCallBack (int event, int x, int y, int flag, void* pUserData)
 }
 
 /*
-	cvMouseExtension:		ÃÊ±âÈ­
-	~cvMouseExtension:		Á¾·á
-	windowExists:			OpenCV Ã¢ÀÌ Á¸Àç À¯¹« °Ë»ç
+	cvMouseExtension:		ì´ˆê¸°í™”
+	~cvMouseExtension:		ì¢…ë£Œ
+	windowExists:			OpenCV ì°½ì´ ì¡´ì¬ ìœ ë¬´ ê²€ì‚¬
 */
 cvMouseExtension::cvMouseExtension(String strWindowName, int iFlag)
 {
 	namedWindow (strWindowName, iFlag);
-	resizeWindow(strWindowName, cv::Size(800, 800)); // ÃÊ±â À© »çÀÌÁî ¼³Á¤
+	resizeWindow(strWindowName, cv::Size(800, 800)); // ì´ˆê¸° ìœˆ ì‚¬ì´ì¦ˆ ì„¤ì •
 	setMouseCallback (strWindowName, cvMouseCallBack, this);
 	m_strWindowName = strWindowName;
 
 
 	//Initial values
 	zoomCount = 0;
-	maxZoomCount = 10; // ÁÜ Ä«¿îÆ® (x10)
+	maxZoomCount = 10; // ì¤Œ ì¹´ìš´íŠ¸ (x10)
 	minZoomCount = 0;
 
 	m_Resize.resize (maxZoomCount + 1);
@@ -111,7 +111,7 @@ cvMouseExtension::cvMouseExtension(String strWindowName, int iFlag)
 	offsetY = 0;
 	InitScale = 1;
 	newScale = 1;
-	scaleRatio = 1.25; // ÁÜ ½ºÄÉÀÏ
+	scaleRatio = 1.25; // ì¤Œ ìŠ¤ì¼€ì¼
 
 	originalWidth = 0;
 	originalHeight = 0;
@@ -147,7 +147,7 @@ cvMouseExtension::~cvMouseExtension()
 bool cvMouseExtension::windowExists(const string& windowName)
 {
 	int prop = cv::getWindowProperty(windowName, WND_PROP_VISIBLE);
-	if (prop >= 0) // ¿­·ÁÀÖ´Ù¸é
+	if (prop >= 0) // ì—´ë ¤ìˆë‹¤ë©´
 	{
 		return true;
 	}
@@ -158,12 +158,12 @@ bool cvMouseExtension::windowExists(const string& windowName)
 }
 
 /*
-	LoadPath:					°æ·Î·Î ÀÌ¹ÌÁö ºÒ·¯¿À±â
-	LoadImg:					cv::MatÀ¸·Î ÀÌ¹ÌÁö ºÒ·¯¿À±â
+	LoadPath:					ê²½ë¡œë¡œ ì´ë¯¸ì§€ ë¶ˆëŸ¬ì˜¤ê¸°
+	LoadImg:					cv::Matìœ¼ë¡œ ì´ë¯¸ì§€ ë¶ˆëŸ¬ì˜¤ê¸°
 
-	/»ç¿ëÀÚ Á¤ÀÇ/
-	ImRead:						°æ·Î·Î ÀÌ¹ÌÁö ºÒ·¯¿À±â
-	ImShow:						cv::MatÀ¸·Î ÀÌ¹ÌÁö ºÒ·¯¿À±â
+	/ì‚¬ìš©ì ì •ì˜/
+	ImRead:						ê²½ë¡œë¡œ ì´ë¯¸ì§€ ë¶ˆëŸ¬ì˜¤ê¸°
+	ImShow:						cv::Matìœ¼ë¡œ ì´ë¯¸ì§€ ë¶ˆëŸ¬ì˜¤ê¸°
 */
 bool cvMouseExtension::LoadPath(String winname, double InitScale)
 {
@@ -240,10 +240,10 @@ bool cvMouseExtension::ImShow(Mat& mat, double InitScale)
 }
 
 /*
-	ShowMessageBox:					¸Ş½ÃÁö ¹Ú½º Ç¥½Ã
-	SetMessageBox:					¸Ş½ÃÁö ¹Ú½º À§Ä¡ ¼³Á¤
-	CreateMessageBox:				¸Ş½ÃÁö ¹Ú½º »ı¼º
-	cvGetWindowRect:				OpenCV Ã¢ Æ÷ÀÎÆ® ¾ò±â
+	ShowMessageBox:					ë©”ì‹œì§€ ë°•ìŠ¤ í‘œì‹œ
+	SetMessageBox:					ë©”ì‹œì§€ ë°•ìŠ¤ ìœ„ì¹˜ ì„¤ì •
+	CreateMessageBox:				ë©”ì‹œì§€ ë°•ìŠ¤ ìƒì„±
+	cvGetWindowRect:				OpenCV ì°½ í¬ì¸íŠ¸ ì–»ê¸°
 */
 bool cvMouseExtension::ShowMessageBox(String text, Size winsize)
 {
@@ -254,13 +254,13 @@ bool cvMouseExtension::ShowMessageBox(String text, Size winsize)
 }
 bool cvMouseExtension::SetMessageBox(Mat& curImage)
 {	
-	// ¾à°£ÀÇ Æ®¸¯ 
+	// ì•½ê°„ì˜ íŠ¸ë¦­ 
 	imshow("Message", curImage);
 	Rect windowRect = cvGetWindowRect(m_strWindowName);
 	Point bl = windowRect.tl() + Point(0, windowRect.height);
 	Point tl = windowRect.tl();
 	//if (windowRect.width < curImage.cols || 
-	//	windowRect.height < curImage.rows) // Ã¢ÀÌ ÀÛ¾ÆÁú ¶§
+	//	windowRect.height < curImage.rows) // ì°½ì´ ì‘ì•„ì§ˆ ë•Œ
 	//{
 	//	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	//	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
@@ -270,7 +270,7 @@ bool cvMouseExtension::SetMessageBox(Mat& curImage)
 	//	int cx = (screenWidth - width) / 2;
 	//	int cy = (screenHeight - height) / 2;
 	//
-	//	// Ã¢ À§Ä¡ È­¸é Á¤Áß¾ÓÀ¸·Î ¼³Á¤
+	//	// ì°½ ìœ„ì¹˜ í™”ë©´ ì •ì¤‘ì•™ìœ¼ë¡œ ì„¤ì •
 	//	moveWindow("Message", cx, cy);
 	//}
 	//int x = windowRect.tl().x + (windowRect.width / 5);
@@ -314,7 +314,7 @@ Rect cvMouseExtension::cvGetWindowRect(const string& windowName)
 		return Rect();
 	}
 
-	// À©µµ¿ì Rect¸¦ ¾òÀ½
+	// ìœˆë„ìš° Rectë¥¼ ì–»ìŒ
 	RECT rect;
 	if (GetWindowRect(hwnd, &rect)) 
 	{
@@ -327,11 +327,11 @@ Rect cvMouseExtension::cvGetWindowRect(const string& windowName)
 }
 
 /*
-	SetInitailScale:		½ºÄÉÀÏ ¼³Á¤ 
-	InvalidateWindows:		È®´ë/ Ãà¼Ò ÀÌ¹ÌÁö °»½Å
-	SetHorzSliderCtrlPos:	È®´ë ¹× µå·¡±× ÀÌµ¿ °ü·Ã ÇÔ¼ö
-	SetVertSliderCtrlPos:	È®´ë ¹× µå·¡±× ÀÌµ¿ °ü·Ã ÇÔ¼ö
-	OnRButtonSaveImage:		¿ì Å¬¸¯ ÀÌ¹ÌÁö ÀúÀå 
+	SetInitailScale:		ìŠ¤ì¼€ì¼ ì„¤ì • 
+	InvalidateWindows:		í™•ëŒ€/ ì¶•ì†Œ ì´ë¯¸ì§€ ê°±ì‹ 
+	SetHorzSliderCtrlPos:	í™•ëŒ€ ë° ë“œë˜ê·¸ ì´ë™ ê´€ë ¨ í•¨ìˆ˜
+	SetVertSliderCtrlPos:	í™•ëŒ€ ë° ë“œë˜ê·¸ ì´ë™ ê´€ë ¨ í•¨ìˆ˜
+	OnRButtonSaveImage:		ìš° í´ë¦­ ì´ë¯¸ì§€ ì €ì¥ 
 */
 void cvMouseExtension::SetInitailScale (double dScale)
 {
@@ -396,14 +396,14 @@ void cvMouseExtension::OnRButtonSaveImage()
 		Size size(int(newScale * Image.cols), int(newScale * Image.rows));
 		resize(Image, m_Resize[zoomCount], size, 0, 0, resizeFlag);
 	}
-	int iW = m_Resize[0].cols - 1, iH = m_Resize[0].rows - 1;//-1: for bar size
+	int iW = m_Resize[0].cols, iH = m_Resize[0].rows;
 	Rect rectShow(Point(horizontalSliderPos, verticalSliderPos), Size(iW, iH));
 	int CurZoomCnt = zoomCount;
-	if (windowExists("Message")) // ¸Ş½ÃÁö ¹Ú½º°¡ ¾ø´Ù¸é
+	if (windowExists("Message")) // ë©”ì‹œì§€ ë°•ìŠ¤ê°€ ì—†ë‹¤ë©´
 	{
 		if (!m_Resize[CurZoomCnt].empty() &&
 			ShowMessageBox("Image Save successful !", Size(500, 70)))
-			// ¾øÀ¸¸é __acrt_first_block == header ¿À·ù
+			// ì—†ìœ¼ë©´ __acrt_first_block == header ì˜¤ë¥˜
 		{
 			imwrite(temp, m_Resize[CurZoomCnt](rectShow));
 		}
@@ -417,7 +417,7 @@ void cvMouseExtension::OnRButtonSaveImage()
 	void cvExtensionWindow(String winname, Mat& image, int Wait)
 	{
 		cvMouseExtension window(winname);
-		window.ImShow(image); // cv::MatÀ¸·Î ºÒ·¯¿À±â
+		window.ImShow(image); // cv::Matìœ¼ë¡œ ë¶ˆëŸ¬ì˜¤ê¸°
 		cv::waitKey(Wait);
 	}
 
