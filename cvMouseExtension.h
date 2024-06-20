@@ -1,6 +1,13 @@
 #pragma once
 #include "opencv2/opencv.hpp"
 
+#include <string>
+#include <io.h>
+#include <tchar.h>
+#include <direct.h>
+#include <windows.h> 
+//MFC ê°€ ì•„ë‹Œ ìƒí™©ì—ì„œë„
+
 using namespace std;
 using namespace cv;
 
@@ -60,11 +67,11 @@ public:
 #pragma region variable
 	int resizeFlag = 0;		
 	/*
-	INTER_NEAREST        = 0, // ¸®¼Ò½º ÀÛÀ½ - Ç°Áú ³·À½
+	INTER_NEAREST        = 0, // ë¦¬ì†ŒìŠ¤ ì‘ìŒ - í’ˆì§ˆ ë‚®ìŒ
 	INTER_LINEAR         = 1, // Default
 	INTER_CUBIC          = 2,
 	INTER_AREA           = 3,
-	INTER_LANCZOS4       = 4, // ¸®¼Ò½º Å­ - Ç°Áú ³ôÀ½
+	INTER_LANCZOS4       = 4, // ë¦¬ì†ŒìŠ¤ í¼ - í’ˆì§ˆ ë†’ìŒ
 	INTER_LINEAR_EXACT   = 5,
 	INTER_NEAREST_EXACT  = 6,
 	INTER_MAX            = 7,
