@@ -164,6 +164,8 @@ bool cvMouseExtension::windowExists(const string& windowName)
 	/사용자 정의/
 	ImRead:						경로로 이미지 불러오기
 	ImShow:						cv::Mat으로 이미지 불러오기
+
+	Wait:						Sec to ms (5sec -> 5000ms)
 */
 bool cvMouseExtension::LoadPath(String winname, double InitScale)
 {
@@ -239,6 +241,11 @@ bool cvMouseExtension::ImShow(Mat& mat, double InitScale)
 	return !m_Resize[0].empty();
 }
 
+bool cvMouseExtension::Wait(float Sec)
+{
+	int ms = static_cast<int>(Sec * 1000);
+	cv::waitKey(ms);
+}
 /*
 	ShowMessageBox:					메시지 박스 표시
 	SetMessageBox:					메시지 박스 위치 설정
@@ -412,13 +419,13 @@ void cvMouseExtension::OnRButtonSaveImage()
 
 
 /*
-	void cvExtensionWindow(String winname, Mat& image, int Wait = 0);
+	void cvExtensionWindow(String winname, Mat& image, float sec = 0.0f);
 	
-	void cvExtensionWindow(String winname, Mat& image, int Wait)
+	void cvExtensionWindow(String winname, Mat& image, float sec)
 	{
 		cvMouseExtension window(winname);
 		window.ImShow(image); // cv::Mat으로 불러오기
-		cv::waitKey(Wait);
+		window.Wait(sec);
 	}
 
 	Ctrl + Click
