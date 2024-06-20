@@ -46,7 +46,7 @@ public:
 	bool ImShow(Mat& mat, double InitScale = 1.0f); // default = 1
 	bool ImRead(String winname, double InitScale = 1.0f); // default = 1
 
-	bool Wait(float sec = 0.0f); // Sec to ms
+	void Wait(float sec = 0.0f); // Sec to ms
 	void SetInitailScale(double dScale);
 #pragma endregion
 
