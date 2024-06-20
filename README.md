@@ -40,36 +40,36 @@
 
    * __사용 예시(Example)__
 		>	```cpp
-		>	void 클래스::함수명(String winname, Mat& image, int Wait)
+		>	void 클래스::함수명(String winname, Mat& image, float Sec)
 		>	{
-		>		cvMouseExtension cvWin(winname);
-		>		cvWin.ImShow(image); // cv::Mat으로 불러오기
-		>		cv::waitKey(Wait);
+		>		cvMouseExtension window(winname);
+		>		window.ImShow(image); // cv::Mat으로 불러오기
+		>		window.Wait(Sec);
 		>	}
 		>	```
 		>	또는,
 		>	```cpp
-		>	void 클래스::함수명(String Path, String winname)
+		>	void 클래스::함수명(String Path, String winname, float Sec)
 		>	{
-		>		cvMouseExtension cvWin(winname);
-		>		cvWin.ImRead(Path); // 경로로 불러오기
-		>		cv::waitKey(0);
+		>		cvMouseExtension window(winname);
+		>		window.ImRead(Path); // 경로로 불러오기
+		>		window.Wait(Sec);
 		>	}
 		>	```
 		>	
 		> 트랙바 사용 예시
 
 		>	```cpp
-		>	cvMouseExtension cvWin("이름", WINDOW_NORMAL); // 플래그는 초기값 1
-		>	cvWin.SetInitailScale(1); // 초기 배율 설정 1 = 배율 없음
-		>	cvWin.ImRead(path); // 파일 경로 string 또는 cv::String 형식
+		>	cvMouseExtension window("이름", WINDOW_NORMAL); // 플래그는 초기값 1
+		>	window.SetInitailScale(1); // 초기 배율 설정 1 = 배율 없음
+		>	window.ImRead(path); // 파일 경로 string 또는 cv::String 형식
 		>	
 		>	/*
 		>	트랙바 생성 또는 
 		>	Window 관련 코드 추가
 		>	*/
 		>	
-		>	waitKey(0); // 입력 대기
+		>	window.Wait(/*Second*/);
 		>	```
 ## 3. Reference 
  [Reference : Github Repositories](https://github.com/DennisLiu1993/Zoom-In-Out-with-OpenCV)
