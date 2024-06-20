@@ -252,7 +252,7 @@ bool cvMouseExtension::ShowMessageBox(String text, Size winsize)
 		return true;
 	}
 }
-bool cvMouseExtension::SetMessageBox(Mat& curImage)
+bool cvMouseExtension::SetMessageBox(Mat curImage)
 {	
 	// 약간의 트릭 
 	imshow("Message", curImage);
@@ -379,14 +379,14 @@ void cvMouseExtension::SetVertSliderCtrlPos (int iPos)
 }
 void cvMouseExtension::OnRButtonSaveImage()
 {	
-	if ((_waccess(_T(".\\cvExtension"), 0)) == -1)
-		CreateDirectory(_T(".\\cvExtension"), NULL);
+	if ((_waccess(_T(".\\ExtensionSaveImage"), 0)) == -1)
+		CreateDirectory(_T(".\\ExtensionSaveImage"), NULL);
 
 	time_t timer;
 	timer = time(NULL);
 	struct tm t;
 	localtime_s(&t, &timer);
-	String folderName = "cvExtension\\";
+	String folderName = "ExtensionSaveImage\\";
 	String temp = format("%s%04d%02d%02d%02d%02d%d.bmp", folderName.c_str(), t.tm_year + 1900, t.tm_mon + 1, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec);
 
 	if (Image.empty())
