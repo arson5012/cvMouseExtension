@@ -241,7 +241,7 @@ bool cvMouseExtension::ImShow(Mat& mat, double InitScale)
 	return !m_Resize[0].empty();
 }
 
-bool cvMouseExtension::Wait(float Sec)
+void cvMouseExtension::Wait(float Sec)
 {
 	int ms = static_cast<int>(Sec * 1000);
 	cv::waitKey(ms);
