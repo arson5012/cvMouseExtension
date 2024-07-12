@@ -40,20 +40,20 @@
 
    * __사용 예시(Example)__
 		>	```cpp
-		>	void 클래스::함수명(String winname, Mat& image, float Sec)
+		>	void 클래스::함수명(String winname, Mat& image, int ms)
 		>	{
 		>		cvMouseExtension window(winname);
 		>		window.ImShow(image); // cv::Mat으로 불러오기
-		>		window.Wait(Sec);
+		>		waitKey(ms);
 		>	}
 		>	```
 		>	또는,
 		>	```cpp
-		>	void 클래스::함수명(String Path, String winname, float Sec)
+		>	void 클래스::함수명(String Path, String winname, int ms)
 		>	{
 		>		cvMouseExtension window(winname);
 		>		window.ImRead(Path); // 경로로 불러오기
-		>		window.Wait(Sec);
+		>		waitKey(ms);
 		>	}
 		>	```
 		>	
@@ -69,7 +69,7 @@
 		>	Window 관련 코드 추가
 		>	*/
 		>	
-		>	window.Wait(/*Second*/);
+		>	waitKey(0);
 		>	```
 ## 3. Reference 
  [Reference : Github Repositories](https://github.com/DennisLiu1993/Zoom-In-Out-with-OpenCV)
