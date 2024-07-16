@@ -34,9 +34,11 @@ public:
 #pragma endregion
 
 #pragma region cvMessageBox
-	bool SetMessageBox(Mat& curImage);
+	bool SetMessageBox(Mat curImage);
 	Mat	 CreateMessageBox(String text, Size winsize);
 	bool ShowMessageBox(String text, Size winsize = Size(500, 70));
+	Size calculateAspectRatio(const Mat& image);
+	int _gcd(int a, int b);
 #pragma endregion
 
 #pragma region INIT
@@ -46,12 +48,12 @@ public:
 	bool ImShow(Mat& mat, double InitScale = 1.0f); // default = 1
 	bool ImRead(String winname, double InitScale = 1.0f); // default = 1
 
-	void Wait(float sec = 0.0f); // Sec to ms
 	void SetInitailScale(double dScale);
 #pragma endregion
 
 #pragma region FUNCTION
 	void InvalidateWindows();
+	void ImageAutoRelease();
 	void SetHorzSliderCtrlPos(int iPos);
 	void SetVertSliderCtrlPos(int iPos);
 	void OnRButtonSaveImage();
@@ -68,11 +70,11 @@ public:
 #pragma region variable
 	int resizeFlag = 0;		
 	/*
-	INTER_NEAREST        = 0, // 리소스 작음 - 품질 낮음
-	INTER_LINEAR         = 1, // Default
+	INTER_NEAREST        = 0, // Default
+	INTER_LINEAR         = 1, 
 	INTER_CUBIC          = 2,
 	INTER_AREA           = 3,
-	INTER_LANCZOS4       = 4, // 리소스 큼 - 품질 높음
+	INTER_LANCZOS4       = 4,
 	INTER_LINEAR_EXACT   = 5,
 	INTER_NEAREST_EXACT  = 6,
 	INTER_MAX            = 7,
