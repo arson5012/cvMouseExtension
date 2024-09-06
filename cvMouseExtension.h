@@ -6,7 +6,6 @@
 #include <tchar.h>
 #include <direct.h>
 #include <windows.h> 
-//MFC 가 아닌 상황에서도
 
 using namespace std;
 using namespace cv;
@@ -42,11 +41,11 @@ public:
 #pragma endregion
 
 #pragma region INIT
-	bool LoadImg(Mat& mat, double InitScale = 1.0f); // default = 1
-	bool LoadPath(String winname, double InitScale = 1.0f); // default = 1
+	bool LoadImg(Mat& mat, double InitScale = 1.0); // default = 1
+	bool LoadPath(String winname, double InitScale = 1.0); // default = 1
 
-	bool ImShow(Mat& mat, double InitScale = 1.0f); // default = 1
-	bool ImRead(String winname, double InitScale = 1.0f); // default = 1
+	bool ImShow(Mat& mat, double InitScale = 1.0); // default = 1
+	bool ImRead(String winname, double InitScale = 1.0); // default = 1
 
 	void SetInitailScale(double dScale);
 #pragma endregion
@@ -68,7 +67,7 @@ public:
 	Point	ptRButtonDown;
 
 #pragma region variable
-	int resizeFlag = 0;		
+	int resizeFlag = 6;		
 	/*
 	INTER_NEAREST        = 0, // Default
 	INTER_LINEAR         = 1, 
@@ -76,10 +75,7 @@ public:
 	INTER_AREA           = 3,
 	INTER_LANCZOS4       = 4,
 	INTER_LINEAR_EXACT   = 5,
-	INTER_NEAREST_EXACT  = 6,
-	INTER_MAX            = 7,
-	WARP_FILL_OUTLIERS   = 8,
-	WARP_INVERSE_MAP     = 16
+	INTER_NEAREST_EXACT  = 6
 	*/
 
 	int zoomCount;
